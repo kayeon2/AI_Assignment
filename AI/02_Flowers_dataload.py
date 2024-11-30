@@ -7,7 +7,8 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.optimizers import Adam
-
+from MLP import create_mlp, train_mlp
+from CNN import create_cnn, train_cnn
 
 IMAGE_SIZE = (128,128)
 
@@ -70,4 +71,18 @@ for i in range(5):
     plt.axis('off')
 plt.show()
 
+# One-hot Encoding
+y_train = tf.keras.utils.to_categorical(y_train, num_classes=len(class_names))
+y_test = tf.keras.utils.to_categorical(y_test, num_classes=len(class_names))
 
+input_shape = X_train.shape[1:]
+num_classes = len(class_names)
+
+# MLP 모델
+mlp_model = create_mlp(input_shape, num_classes)
+history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
+
+
+# CNN 모델
+cnn_model = create_cnn(input_shape, num_classes)
+history = train_cnn(cnn_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)

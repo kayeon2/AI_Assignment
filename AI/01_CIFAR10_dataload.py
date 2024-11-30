@@ -1,7 +1,7 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
-
 from MLP import create_mlp, train_mlp
+from CNN import create_cnn, train_cnn
 
 class_names = [
     "Airplane", "Automobile", "Bird", "Cat", "Deer",
@@ -33,5 +33,11 @@ y_test = tf.keras.utils.to_categorical(y_test, 10)
 
 input_shape = X_train.shape[1:]
 num_classes = 10
+
+# MLP
 mlp_model = create_mlp(input_shape, num_classes)
-history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
+history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=32)
+
+# CNN
+cnn_model = create_cnn(input_shape, num_classes)
+history = train_cnn(cnn_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=32)
