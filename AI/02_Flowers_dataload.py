@@ -8,7 +8,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.optimizers import Adam
 from MLP import create_mlp, train_mlp
-from CNN import create_cnn, train_cnn
+from CNN import create_cnn, train_cnn, plot_model_comparison
 
 IMAGE_SIZE = (128,128)
 
@@ -79,10 +79,13 @@ input_shape = X_train.shape[1:]
 num_classes = len(class_names)
 
 # MLP 모델
+print("----- MLP 구현 -----")
 mlp_model = create_mlp(input_shape, num_classes)
 history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
 
 
 # CNN 모델
-cnn_model = create_cnn(input_shape, num_classes)
-history = train_cnn(cnn_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
+print("----- CNN 구현 -----")
+cnn_model = create_cnn(input_shape)
+results = train_cnn(cnn_model, X_train, y_train, X_test, y_test)
+plot_model_comparison(results)

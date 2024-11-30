@@ -1,7 +1,8 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from MLP import create_mlp, train_mlp
-from CNN import create_cnn, train_cnn
+from CNN import create_cnn, train_cnn, plot_model_comparison
+import numpy as np
 
 class_names = [
     "Airplane", "Automobile", "Bird", "Cat", "Deer",
@@ -24,20 +25,23 @@ for i in range(5):
     plt.axis('off')
 plt.show()
 
-# 정규화
+# 데이터 정규화
 X_train, X_test = X_train / 255, X_test / 255  
 
 # one-hot encoding
 y_train = tf.keras.utils.to_categorical(y_train, 10)
 y_test = tf.keras.utils.to_categorical(y_test, 10)
 
-input_shape = X_train.shape[1:]
-num_classes = 10
+input_shape = X_train.shape[1:]     # 입력 데이터의 형태
+num_classes = 10                    # CIFAR-10 클래스 개수
 
 # MLP
+print("----- MLP 구현 -----")
 mlp_model = create_mlp(input_shape, num_classes)
-history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=32)
+history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
 
 # CNN
-cnn_model = create_cnn(input_shape, num_classes)
-history = train_cnn(cnn_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=32)
+print("----- CNN 구현 -----")
+cnn_model = create_cnn(input_shape)
+results = train_cnn(cnn_model, X_train, y_train, X_test, y_test)
+plot_model_comparison(results)
