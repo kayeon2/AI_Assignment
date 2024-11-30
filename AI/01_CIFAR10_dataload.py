@@ -1,6 +1,6 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from MLP import create_mlp, train_mlp
+from MLP import create_mlp, train_mlp, plot_confusion_matrix, plot_loss_and_accuracy
 from CNN import create_cnn, train_cnn, plot_model_comparison
 import numpy as np
 
@@ -38,7 +38,18 @@ num_classes = 10                    # CIFAR-10 클래스 개수
 # MLP
 print("----- MLP 구현 -----")
 mlp_model = create_mlp(input_shape, num_classes)
-history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
+history = train_mlp(mlp_model, X_train, y_train, X_test, y_test, epochs=10, batch_size=32)
+
+# MLP 예측 결과 생성
+y_pred = mlp_model.predict(X_test)
+y_pred_labels = np.argmax(y_pred, axis=1)
+y_test_labels = np.argmax(y_test, axis=1)
+
+# 혼동 행렬 시각화
+plot_confusion_matrix(y_test_labels, y_pred_labels)
+
+# 손실 그래프
+plot_loss_and_accuracy(history)
 
 # CNN
 print("----- CNN 구현 -----")
