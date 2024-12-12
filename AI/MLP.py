@@ -10,11 +10,8 @@ def create_mlp(input_shape, num_classes):
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=input_shape),
         keras.layers.Dense(1024, activation='relu'),    # 히든 레이어 1(1024)
-        keras.layers.Dropout(0.2),
         keras.layers.Dense(512, activation='relu'),     # 히든 레이어 2(512)
-        # keras.layers.Dropout(0.3),
-        keras.layers.Dense(512, activation='relu'),     # 히든 레이어 3(512),
-        # keras.layers.Dense(128, activation='relu'),
+        keras.layers.Dense(256, activation='relu'),     # 히든 레이어 3(512),
         keras.layers.Dense(num_classes, activation='softmax')
         ])
     
@@ -39,10 +36,27 @@ def train_mlp(model, X_train, y_train, X_test, y_test, epochs=10, batch_size=64)
 
 # 손실 및 정확도 그래프
 def plot_loss_and_accuracy(history):
-    plt.plot(history.history['loss'], 'b-', label='loss value')
+    plt.figure(figsize=(14, 5))
+
+    # Loss 그래프
+    plt.subplot(1, 2, 1)  # 1행 2열 중 첫 번째 그래프
+    plt.plot(history.history['loss'], 'b-', label='Loss')
+    plt.title('Model Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
     plt.legend()
-    plt.plot(history.history['accuracy'], 'r-', label='accuracy')
+
+    # Accuracy 그래프
+    plt.subplot(1, 2, 2)  # 1행 2열 중 두 번째 그래프
+    plt.plot(history.history['accuracy'], 'r-', label='Accuracy')
+    plt.title('Model Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
     plt.legend()
+
+    # 그래프 출력
+    plt.tight_layout()
+    plt.show()
     
 # 혼동 행렬 시각화
 def plot_confusion_matrix(y_true, y_pred):

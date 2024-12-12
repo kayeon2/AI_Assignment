@@ -54,7 +54,7 @@ def train_cnn(model, X_train, y_train, X_test, y_test):
     
     # SVM
     print("\nSVM 학습 중...")
-    X_train_sample, _, y_train_sample, _ = train_test_split(X_train_flatten, y_train_labels, test_size=0.9, random_state=42)
+    X_train_sample, _, y_train_sample, _ = train_test_split(X_train_flatten, y_train_labels, test_size=0.8, random_state=42)
     svm = SVC(kernel='linear', probability=True)
     svm.fit(X_train_sample, y_train_sample)
     svm_pred = svm.predict(X_test_flatten)
